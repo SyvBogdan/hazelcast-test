@@ -4,7 +4,7 @@
            xmlns="http://www.hazelcast.com/schema/config"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <network>
-        <port auto-increment="true" port-count="20">5704</port>
+        <port auto-increment="true" port-count="20">5702</port>
         <join>
             <multicast enabled="false">
             </multicast>
