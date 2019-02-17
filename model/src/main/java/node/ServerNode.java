@@ -10,4 +10,8 @@ public class ServerNode {
     public ServerNode() {
          hzInstance = Hazelcast.newHazelcastInstance();
     }
+
+    public HazelcastInstance getHzInstance() {
+        return hzInstance;
+    }
 }
