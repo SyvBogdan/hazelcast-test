@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public class App1 {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         final ServerNode serverNode = new ServerNode();
 
         final String mapName = "testMap";
@@ -21,22 +21,29 @@ public class App1 {
                 .addListenerToMap(mapName, new EntryListener() {
                     @Override
                     public void mapEvicted(MapEvent event) {
+                        System.out.println("Map was evicted");
                     }
 
                     @Override
                     public void mapCleared(MapEvent event) {
+
+                        System.out.println("Map was cleared");
                     }
 
                     @Override
                     public void entryUpdated(EntryEvent event) {
+
+                        System.out.println("Entry was updated: " + event.getValue());
                     }
 
                     @Override
                     public void entryRemoved(EntryEvent event) {
+                        System.out.println("Entry was removed: " + event.getValue());
                     }
 
                     @Override
                     public void entryEvicted(EntryEvent event) {
+                        System.out.println("Entry was evicted: " + event.getValue());
                     }
 
                     @Override
@@ -46,7 +53,13 @@ public class App1 {
                     }
                 });
 
-        hazelCastMapService.addCash("str1", mapName);
-        hazelCastMapService.addCash("new Entry", mapName);
+
+        final UUID uuid_entry = hazelCastMapService.addCash("new Entry", mapName);
+
+        Thread.sleep(500);
+
+        hazelCastMapService.changeCash(uuid_entry, "new Entry val", mapName);
+
+        hazelCastMapService.removeCash(uuid_entry, mapName);
     }
 }
