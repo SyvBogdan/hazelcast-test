@@ -1,7 +1,10 @@
 package com.test.task;
 
-public class PrintTask implements Runnable {
+import java.io.Serializable;
 
+public class PrintTask implements Runnable, Serializable {
+
+    private static final long serialVersionUID = 306867678241899629L;
 
     public PrintTask() {
         System.out.println("Task was intialized");

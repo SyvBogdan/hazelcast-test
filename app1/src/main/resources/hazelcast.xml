@@ -7,13 +7,12 @@
         <property name="hazelcast.socket.bind.any">true</property>
     </properties>
     <network>
-     <public-address>176.37.243.58:5702</public-address>
-        <port auto-increment="true" port-count="20">5702</port>
+        <port auto-increment="true" port-count="20">5701</port>
         <join>
             <multicast enabled="false">
             </multicast>
             <tcp-ip enabled="true">
-                <member>92.249.115.24:5701</member>
+                <member>localhost</member>
                 <!--<member>176.36.182.63:5703</member>-->
                 <!--<member>92.249.115.24:5701</member>-->
             </tcp-ip>
