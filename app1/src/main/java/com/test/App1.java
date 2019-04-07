@@ -4,11 +4,14 @@ import com.hazelcast.core.EntryEvent;
 import com.hazelcast.core.EntryListener;
 import com.hazelcast.core.MapEvent;
 import com.hazelcast.map.listener.MapListener;
+import com.hazelcast.scheduledexecutor.IScheduledExecutorService;
 import com.test.map.HazelCastMapService;
 import com.test.map.impl.StringHazelCastMapService;
+import com.test.task.PrintTask;
 import node.ServerNode;
 
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class App1 {
 
@@ -57,6 +60,11 @@ public class App1 {
         final UUID uuid_entry = hazelCastMapService.addCash("new Entry", mapName);
 
         Thread.sleep(500);
+
+        IScheduledExecutorService scheduledExecutorService =
+                serverNode.getHzInstance().getScheduledExecutorService("order task");
+
+        scheduledExecutorService.scheduleAtFixedRate(new PrintTask(), 100l, 5000l, TimeUnit.MILLISECONDS);
 
         hazelCastMapService.changeCash(uuid_entry, "new Entry val", mapName);
 
