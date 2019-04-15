@@ -3,8 +3,10 @@ package com.test;
 import com.hazelcast.config.Config;
 import com.hazelcast.core.EntryEvent;
 import com.hazelcast.core.EntryListener;
+import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.MapEvent;
 import com.hazelcast.map.listener.MapListener;
+import com.hazelcast.scheduledexecutor.DuplicateTaskException;
 import com.hazelcast.scheduledexecutor.IScheduledExecutorService;
 import com.test.config.HazelCastConfig;
 import com.test.map.HazelCastMapService;
@@ -66,13 +68,19 @@ public class App1 {
 
         Thread.sleep(500);
 
-        IScheduledExecutorService scheduledExecutorService =
-                serverNode.getHzInstance().getScheduledExecutorService("order task");
 
-        scheduledExecutorService.scheduleAtFixedRate(new PrintTask(), 1000l,   1000l, TimeUnit.MILLISECONDS);
+        try {
+            IScheduledExecutorService scheduledExecutorService =
+                    serverNode.getHzInstance().getScheduledExecutorService("printTask");
 
-        hazelCastMapService.changeCash(uuid_entry, "new Entry val", mapName);
+            scheduledExecutorService.scheduleAtFixedRate(new PrintTask(), 1000l, 1000l, TimeUnit.MILLISECONDS);
 
-        hazelCastMapService.removeCash(uuid_entry, mapName);
+            hazelCastMapService.changeCash(uuid_entry, "new Entry val", mapName);
+
+            hazelCastMapService.removeCash(uuid_entry, mapName);
+        } catch (DuplicateTaskException e) {
+
+            System.out.println("===========> Task Dublication was occured");
+        }
     }
 }

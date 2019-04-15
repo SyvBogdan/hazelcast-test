@@ -18,7 +18,7 @@ public class HazelCastConfig {
         config.getScheduledExecutorConfig("myScheduledExecSvc")
                 .setPoolSize(16)
                 .setCapacity(100)
-                .setDurability(1)
+                .setDurability(2)
                 .setQuorumName("quorumname");
 
         // networkConfig
@@ -29,6 +29,7 @@ public class HazelCastConfig {
 
         join.getMulticastConfig().setEnabled(false);
         join.getTcpIpConfig()
+                .setEnabled(true)
                 .addMember("localhost");
 
         //map configs
